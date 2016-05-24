@@ -1,4 +1,4 @@
-module.exports = funciton(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
 
     return sequelize.define('menu', {
 
@@ -42,8 +42,6 @@ module.exports = funciton(sequelize, DataTypes) {
             allowNUll: false,
 
         }
-
-
 
     });
 
