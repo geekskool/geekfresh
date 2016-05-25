@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<script src="js/login.js"></script>
+	<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+	<div id="main" class="main">
+		<form id="loginForm" name="loginForm" action = "admin.html" method="post">
+			<label for="name"> User Name: </label>
+			<input type="text" id="username" name="username" placeholder="Username" required/><br/>
+			<label for="password"> Password: </label>
+			<input type="password" id="password" name="password" placeholder="Password" required/><br/>
+			<input type="submit" class="submit" value="Login" id="submit" onclick="validate()"/>
+		</form>
+	</div>
+</body>
+</html>
