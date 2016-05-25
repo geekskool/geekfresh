@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-
+// create table menu(name varchar(), description varchar(), quantity INT()..)
     return sequelize.define('menu', {
 
         name: {
