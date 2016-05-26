@@ -25,6 +25,7 @@ app.get('/all', function(request, response) {
 
 });
 
+
 app.get('/admin',function(request,response){
 
     response.sendFile(__dirname+'/public/admin.html');
@@ -68,7 +69,21 @@ var body ={
 
 });
 
-db.sequelize.sync({ force: true }).then(function() {
+
+app.get('/:id', function(request, response) {
+    var id1=  parseInt(request.params.id,10);
+    db.menu.findById(id1).then(function(items) {
+        // var temp = JSON.stringify(items);
+        // alert(items);
+        var temp = items.image;
+        response.sendFile(__dirname + items.image);
+    }, function(e){
+        response.status(500).send();
+    });
+});
+
+
+db.sequelize.sync({ force: false }).then(function() {
 
     app.listen(PORT, function() {
 
