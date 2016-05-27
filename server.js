@@ -5,10 +5,8 @@ var bodyParser = require('body-parser');
 var _ = require('underscore');
 
 var app = express();
-app.use(express.static(__dirname +'/public'));
+app.use(express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use('view engine', 'ejs')
 
 app.get('/', function(request, response) {
     console.log("at index");
@@ -25,13 +23,12 @@ app.get('/all', function(request, response) {
 
 });
 
+app.post('/menu', function(request, response) {
 
-
-
-
+    var body = _.pick(request.body, 'name', 'description', 'quantity', 'ingredients', 'category', 'cost', 'image', 'location');
+    // var body = request.body;
     db.menu.create(body).then(function(menu) {
         response.json(menu.toJSON());
-       // response.send("name"+body.name);
     }, function(e) {
         console.log(e);
     });
@@ -39,21 +36,7 @@ app.get('/all', function(request, response) {
 
 });
 
-
-app.get('/:id', function(request, response) {
-    var id1=  parseInt(request.params.id,10);
-    db.menu.findById(id1).then(function(items) {
-        // var temp = JSON.stringify(items);
-        // alert(items);
-        var temp = items.image;
-        response.sendFile(__dirname + items.image);
-    }, function(e){
-        response.status(500).send();
-    });
-});
-
-
-db.sequelize.sync({ force: false }).then(function() {
+db.sequelize.sync({ force: true }).then(function() {
 
     app.listen(PORT, function() {
 
