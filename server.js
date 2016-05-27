@@ -1,94 +1,80 @@
-var PORT = process.env.PORT || 3000;
-var db = require('./db.js')
-var express = require('express');
-var bodyParser = require('body-parser');
-var _ = require('underscore');
-
-var app = express();
-app.use(express.static(__dirname +'/public'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use('view engine', 'ejs')
-
-app.get('/', function(request, response) {
-    console.log("at index");
-});
-
-app.get('/all', function(request, response) {
-
-	db.menu.findAll().then(function(items){
-		response.json(items);
-	},function(e){
-		response.status(500).send();
-	});
-
-
-});
-
-
-app.get('/admin',function(request,response){
-
-    response.sendFile(__dirname+'/public/admin.html');
-
-
-});
-
-app.post('/admin', function(request, response) {
-    
-    
-    // var body = _.pick(request.body, 'name', 'description', 'quantity', 'ingredients', 'category', 'cost', 'image', 'location');
-    // var body = request.body;
-
-var name = request.body.name;
-var description = request.body.description;
-var quantity = request.body.quantity;
-var ingredients = request.body.ingredients;
-var category = request.body.category;
-var cost = request.body.cost;
-var image = request.body.image;
-var location = request.body.location;
-
-var body ={
-"name":name,
-"description":description,
-"quantity":quantity,
-"ingredients":ingredients,
-"category":category,
-"cost":cost,
-"image":image,
-"location":location
-
+//Initializations
+var express = require("express")
+//npm install body-parser --save
+var bodyParser = require("body-parser")
+var session = require('express-session')
+// npm install js-sha256 --save
+var sha256 = require('js-sha256')
+// npm install csprng --save
+var rand = require('csprng')
+var app = express()
+var cookieSecret = process.env.COOKIE_SECRET || "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"	
+// session management
+var sessionOptions = {
+  secret: cookieSecret,
+  resave : true,
+  saveUninitialized : false,
 }
-    db.menu.create(body).then(function(menu) {
-        response.json(menu.toJSON());
-       // response.send("name"+body.name);
-    }, function(e) {
-        console.log(e);
-    });
+var sess
+var user = "admin"
+var salt = rand(160, 36)
+var pass = sha256(salt + sha256("password"))
 
+//Configurations
+app.set("port",(process.env.PORT||5000))
+app.use(session(sessionOptions))
+app.use(express.static(__dirname + "/public"))
 
-});
+//Parses POST requests. The Content-type in the HTTP request header is set to application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({type:"application/x-www-form-urlencoded"}))
 
+app.get('/', function(request,response) {
+	response.sendFile(__dirname + '/public/login.html')
+})
 
-app.get('/:id', function(request, response) {
-    var id1=  parseInt(request.params.id,10);
-    db.menu.findById(id1).then(function(items) {
-        // var temp = JSON.stringify(items);
-        // alert(items);
-        var temp = items.image;
-        response.sendFile(__dirname + items.image);
-    }, function(e){
-        response.status(500).send();
-    });
-});
+app.post('/login', function(request, response) {
+	var username = request.body.username
+	var password = request.body.password
+	if(user === username) {
+		var hashedPass = sha256(salt + password)
+		if(pass == hashedPass) {
+			request.session.username = username
+			response.sendFile(__dirname + '/public/admin.html')
+		}
+		else {
+			response.send("Invalid User Id or Password")
+		}
+	}
+	else {
+		response.send("Invalid User Id or Password")
+	}
+})
 
+app.get("/admin", function(request, response) {
+	sess = request.session
+	if(typeof sess !== "undefined" && sess.username) {
+		response.sendFile(__dirname + '/public/admin.html')
+	}
+	else {
+		response.sendFile(__dirname + '/public/login.html')
+	}
+})
 
-db.sequelize.sync({ force: false }).then(function() {
+//Route handler - logout
+app.get("/logout", function(request, response) {
+	sess = request.session
+	if(typeof sess !== "undefined" && sess.username) {
+		request.session.destroy(function(err) {
+			if(err) {
+				console.log("Error destroying session: " + err)
+				response.render("pages/errorPage", {status: 500, error: "Internal Server Error"})
+			}
+		})
+		response.sendFile(__dirname + '/public/login.html')
+	}
+})
 
-    app.listen(PORT, function() {
-
-        console.log("listening at port" + PORT);
-
-    });
-
-});
+//Listening to port for requests
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'))
+})

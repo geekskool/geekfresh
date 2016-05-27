@@ -8,6 +8,7 @@
 body {
 	background-color: #f0f0f0;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	color: gray;
 }
 
 a {
@@ -30,6 +31,14 @@ div#header {
 .logo a {
 	font-size: 1.6em;
 	color: #fff;
+}
+
+label#userLbl {
+	margin-top: 12px;
+	margin-right: 10px;
+    float: right;
+    color: #fff;
+    font-size: 1.2em;
 }
 
 div#container {
@@ -71,7 +80,7 @@ ul#nav li a.selected {
 	color: white;
 }
 
-.content {
+.content1, .content2 {
 	width: auto;
 	height: 100;
 	background-color: white;
@@ -86,7 +95,7 @@ input, textarea {
     padding-left: 10px;
     margin: 10px;
     margin-top: 12px;
-    margin-left: 18px;
+    margin-left: 40px;
     width: 290px;
     height: 35px;
     border: 1px solid #c7d0d2;
@@ -102,4 +111,6 @@ button {
 	cursor: pointer;
 	border: 1px solid #c7d0d2;
 }
+
+
 

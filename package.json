@@ -1,20 +1,24 @@
 {
-  "name": "geekfresh.com",
+  "name": "geekfresh",
   "version": "1.0.0",
   "description": "",
-  "main": "db.js",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "csprng": "^0.1.1",
+    "ejs": "^2.4.2",
     "express": "^4.13.4",
-    "node-base64-image": "^0.1.2",
-    "sequelize": "^3.23.2",
-    "sqlite3": "^3.1.4",
-    "underscore": "^1.8.3"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "express-session": "^1.13.0",
+    "js-sha256": "^0.3.0"
+  }
 }
