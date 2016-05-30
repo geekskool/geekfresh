@@ -2,45 +2,87 @@
 <html>
 <head>
 	<title>Admin</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- <script src="js/admin.js"></script> -->
+	<link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-<div class="container">
-<div class="row">
-<div class="col-md-6 well">
-<form action="/admin" method="post" >
+	<div id="header">
+		<div class="logo">
+			<a href="#">GeekFresh</a>
+		</div>
+		<div class="userDiv">
+			<label id="userLbl" for="userLoggedIn">Logged in as </label>
+		</div>
+	</div>
+	<div id="container">
+		<div class="sidebar">
+			<ul id="nav">
+				<li><a id="addAnchor" class="selected" href="#" onclick="displayAddMenu()">Add Menu</a></li>
+				<li><a id="updateAnchor" href="#" onclick="displayUpdateMenu()">Update Menu</a></li>
+				<li><a href="/logout">Logout</a></li>
+			</ul>
+		</div>
+		<div class="content1" style="display:block">
+			<form action="/admin" method="post">
+				<label for="foodName">Food Name</label>
+				<input class="inputContent" type="text" id="foodName" name="foodName"/><br/>
+				<label for="foodDesc">Food Description</label>
+				<textarea class="inputContent" id="foodDesc" name="foodDesc"></textarea><br/>
+				<label for="quantity">Quantity</label>
+				<input class="inputContent" type="text" id="quantity" name="quantity"/><br/>
+				<label for="ingredients">Ingredients</label>
+				<textarea class="inputContent" id="ingredients" name="ingredients"></textarea><br/>
+				<label for="category">Food Category</label>
+				<input class="inputContent" type="text" id="category" name="category"/><br/>
+				<label for="cost">Food cost</label>
+				<input class="inputContent" type="text" id="cost" name="cost"/><br/>
+				<label for="image">Image</label>
+				<input class="inputContent" type="text" id="image" name="image"/><br/>
+				<label for="location">Location</label>
+				<input class="inputContent" type="text" id="location" name="location"/><br/>
+				<button class="addBtn" id="addBtn" type="submit">Add Menu</button>
+			</form>
+		</div>
+		<div class="content2" style="display: none">
+			<form action="/admin" method="post">
+				<label for="foodName">Food Name</label>
+				<input class="inputContent" type="text" id="foodName" name="foodName"/><br/>
+				<label for="foodDesc">Food Description</label>
+				<textarea class="inputContent" id="foodDesc" name="foodDesc"></textarea><br/>
+				<label for="quantity">Quantity</label>
+				<input class="inputContent" type="text" id="quantity" name="quantity"/><br/>
+				<label for="ingredients">Ingredients</label>
+				<textarea class="inputContent" id="ingredients" name="ingredients"></textarea><br/>
+				<label for="category">Food Category</label>
+				<input class="inputContent" type="text" id="category" name="category"/><br/>
+				<label for="cost">Food cost</label>
+				<input class="inputContent" type="text" id="cost" name="cost"/><br/>
+				<label for="image">Image</label>
+				<input class="inputContent" type="text" id="image" name="image"/><br/>
+				<label for="location">Location</label>
+				<input class="inputContent" type="text" id="location" name="location"/><br/>
+				<button class="updateBtn" id="updateBtn" type="submit">Update Menu</button>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function displayUpdateMenu() {
+			var a1 = document.getElementById("addAnchor")
+			a1.classList.remove("selected");
+			var a2 = document.getElementById("updateAnchor")
+			a2.classList.add("selected");
+			document.querySelector(".content1").style.display = "none"
+			document.querySelector(".content2").style.display = "block"
+		}
 
-  name:
-  <input type="text" name="name" class="form-control" placeholder="Enter Name"><br>
-  
-  description:
-  <input type="text" name="description" class="form-control" placeholder="Enter descrption"><br>
-	
-	quantity:
-  <input type="text" name="quantity" class="form-control" placeholder="Enter quantity"><br>
-  ingredients
-  <input type="text" name="ingredients" class="form-control" placeholder="Enter ingredients"><br>
-  category
-  <input type="text" name="category" class="form-control" placeholder="Enter email"><br>
-
-  cost
-  <input type="text" name="cost" class="form-control" placeholder="Enter email"><br>
-
-  image
-  <input type="text" name="image" class="form-control" placeholder="Enter image"><br>
-
-  location
-  <input type="text" name="location" class="form-control" placeholder="Enter location"><br>
-  <input type="submit" class="btn btn-primary" />
-</form>
-</div>
-</div>
-</div>
-
+		function displayAddMenu(argument) {
+			var a1 = document.getElementById("updateAnchor")
+			a1.classList.remove("selected");
+			var a2 = document.getElementById("addAnchor")
+			a2.classList.add("selected");
+			document.querySelector(".content1").style.display = "block"
+			document.querySelector(".content2").style.display = "none"
+		}
+	</script>
 </body>
 </html>
-
-
-
-
-
