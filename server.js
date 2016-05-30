@@ -87,8 +87,8 @@ app.post('/checkout', function(request, response) {
 });
 
 app.post('/admin', function(request, response) {
-    var name = request.body.name;
-    var description = request.body.description;
+    var name = request.body.foodName;
+    var description = request.body.foodDesc;
     var quantity = request.body.quantity;
     var ingredients = request.body.ingredients;
     var category = request.body.category;

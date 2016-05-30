@@ -2,43 +2,43 @@
 <html>
 
 <head>
-  <title> Geek Fresh </title>
-  </head>
-<body onload = "pageLoad()">
-   <div id= "main-div">
-  <template id ="inside-div">
-      <div>
-        <img src="">
-      </div>
-  </template>
- </div>
+    <title> Geek Fresh </title>
+</head>
 
- <script>
+<body onload="loadDoc()">
+    <div id="main-div">
+        <template id="inside-div">
+            <img src="">
+            <div id="desc"></div>
+        </template>
+    </div>
+    <script>
+    function loadDoc() {
+        var str = "__dirname"
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var responseText = JSON.parse(xhttp.responseText);
+                // console.log(responseText);
+                for (var i = 0; i < responseText.length; i++) {
+                    var content = document.querySelector("template").content;
+                    var firstChild = content.firstElementChild
+                    firstChild.src = '/images/' + responseText[i].image;
+                     var lastChild = content.lastElementChild;
+                    lastChild.innerHTML = responseText[i].description;
 
- function pageLoad() {
-  loadDoc();
-  for (var i = 0; i<2; i++) {
-    var content = document.querySelector("template").content
-    var main = document.getElementById("main-div")
-    main.appendChild(document.importNode(content, true));
-  }
-}
-function loadDoc() {
+                    var main = document.getElementById("main-div");
+                    main.appendChild(document.importNode(content, true));
+                    // var immg = content.
 
-var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      document.getElementById("main-div").innerHTML = xhttp.responseText;
-      var responseText = JSON.parse(xhttp.responseText);
-      console.log(responseText);
+                }
+            }
+        };
+
+        xhttp.open("GET", "/all", true);
+        xhttp.send();
     }
-  };
-  
-  xhttp.open("GET", "/all", true);
-  xhttp.send();
-}
+    </script>
+</body>
 
- </script>
-  </body>
-  </html>
-
+</html>
