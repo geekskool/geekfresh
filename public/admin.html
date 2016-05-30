@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Admin</title>
-	<!-- <script src="js/admin.js"></script> -->
+	<script src="js/admin.js"></script>
 	<link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 			<a href="#">GeekFresh</a>
 		</div>
 		<div class="userDiv">
-			<label id="userLbl" for="userLoggedIn">Logged in as </label>
+			<label id="userLbl" for="userLoggedIn"><script>displayUser()</script> </label>
 		</div>
 	</div>
 	<div id="container">
@@ -65,24 +65,5 @@
 			</form>
 		</div>
 	</div>
-	<script type="text/javascript">
-		function displayUpdateMenu() {
-			var a1 = document.getElementById("addAnchor")
-			a1.classList.remove("selected");
-			var a2 = document.getElementById("updateAnchor")
-			a2.classList.add("selected");
-			document.querySelector(".content1").style.display = "none"
-			document.querySelector(".content2").style.display = "block"
-		}
-
-		function displayAddMenu(argument) {
-			var a1 = document.getElementById("updateAnchor")
-			a1.classList.remove("selected");
-			var a2 = document.getElementById("addAnchor")
-			a2.classList.add("selected");
-			document.querySelector(".content1").style.display = "block"
-			document.querySelector(".content2").style.display = "none"
-		}
-	</script>
 </body>
 </html>

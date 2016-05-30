@@ -5,9 +5,8 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var sha256 = require('js-sha256');
 var rand = require('csprng');
-
 var cookieSecret = process.env.COOKIE_SECRET || "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
-    // session management
+// session management
 var sessionOptions = {
     secret: cookieSecret,
     resave: true,
@@ -17,26 +16,15 @@ var sess;
 var user = "admin";
 var salt = rand(160, 36);
 var pass = sha256(salt + sha256("password"));
-
-
-
-
-
-
 var app = express();
+
 app.use(session(sessionOptions));
 app.use(express.static(__dirname + '/public'));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ type: "application/x-www-form-urlencoded" }));
 
-
-
 app.get('/', function(request, response) {
     console.log("at index");
-
-
-
 });
 
 app.post('/login', function(request, response) {
@@ -64,7 +52,10 @@ app.get("/admin", function(request, response) {
     }
 });
 
-
+app.get("/user", function(request, response) {
+    sess = request.session
+    response.send(sess.username)
+})
 
 app.get("/logout", function(request, response) {
     sess = request.session
@@ -79,80 +70,51 @@ app.get("/logout", function(request, response) {
     }
 });
 
-
-
-
 app.get('/all', function(request, response) {
-
     db.menu.findAll().then(function(items) {
         response.json(items);
     }, function(e) {
         response.status(500).send();
     });
-
-
 });
-
-
-
-
 
 app.post('/checkout', function(request, response) {
-
     db.checkout.create(request.body).then(function(checkout) {
         response.json(checkout.toJSON());
-        // response.send("name"+body.name);
     }, function(e) {
         console.log(e);
     });
-
 });
-
 
 app.post('/admin', function(request, response) {
-    
-    
-    // var body = _.pick(request.body, 'name', 'description', 'quantity', 'ingredients', 'category', 'cost', 'image', 'location');
-    // var body = request.body;
-
-var name = request.body.name;
-var description = request.body.description;
-var quantity = request.body.quantity;
-var ingredients = request.body.ingredients;
-var category = request.body.category;
-var cost = request.body.cost;
-var image = request.body.image;
-var location = request.body.location;
-
-var body ={
-"name":name,
-"description":description,
-"quantity":quantity,
-"ingredients":ingredients,
-"category":category,
-"cost":cost,
-"image":image,
-"location":location
-
-}
-
+    var name = request.body.name;
+    var description = request.body.description;
+    var quantity = request.body.quantity;
+    var ingredients = request.body.ingredients;
+    var category = request.body.category;
+    var cost = request.body.cost;
+    var image = request.body.image;
+    var location = request.body.location;
+    var body = {
+        "name":name,
+        "description":description,
+        "quantity":quantity,
+        "ingredients":ingredients,
+        "category":category,
+        "cost":cost,
+        "image":image,
+        "location":location
+    }
     db.menu.create(body).then(function(menu) {
-        // response.json(menu.toJSON());
-
         response.sendFile(__dirname+'/public/admin.html');
-        // response.send("name"+body.name);
     }, function(e) {
         console.log(e);
-    });
-    
+    });    
 });
-
 
 app.get('/:id', function(request, response) {
     var id1 = parseInt(request.params.id, 10);
     db.menu.findById(id1).then(function(items) {
-        // var temp = JSON.stringify(items);
-        // alert(items);
         var temp = items.image;
         response.sendFile(__dirname + items.image);
     }, function(e) {
@@ -160,13 +122,8 @@ app.get('/:id', function(request, response) {
     });
 });
 
-
 db.sequelize.sync({ force: false }).then(function() {
-
     app.listen(PORT, function() {
-
         console.log("listening at port" + PORT);
-
     });
-
 });
