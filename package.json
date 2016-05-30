@@ -6,6 +6,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "node-base64-image": "^0.1.2",
     "sequelize": "^3.23.2",
     "sqlite3": "^3.1.4",
