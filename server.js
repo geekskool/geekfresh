@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({ type: "application/x-www-form-urlencoded" }));
 
 app.get('/', function(request, response) {
     console.log("at index");
+
+
+
 });
 
 app.post('/login', function(request, response) {
@@ -132,11 +135,15 @@ app.post('/admin', function(request, response) {
 
     }
     db.menu.create(body).then(function(menu) {
-        response.json(menu.toJSON());
+        // response.json(menu.toJSON());
+
+        response.sendFile(__dirname+'/public/admin.html');
         // response.send("name"+body.name);
     }, function(e) {
         console.log(e);
     });
+
+
 
 
 });
