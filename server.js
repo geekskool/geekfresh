@@ -96,6 +96,7 @@ app.get('/all', function(request, response) {
 
 
 
+
 app.post('/checkout', function(request, response) {
 
     db.checkout.create(request.body).then(function(checkout) {
@@ -105,35 +106,36 @@ app.post('/checkout', function(request, response) {
         console.log(e);
     });
 
-
 });
 
+
 app.post('/admin', function(request, response) {
-
-
+    
+    
     // var body = _.pick(request.body, 'name', 'description', 'quantity', 'ingredients', 'category', 'cost', 'image', 'location');
     // var body = request.body;
 
-    var name = request.body.foodName;
-    var description = request.body.foodDesc;
-    var quantity = request.body.quantity;
-    var ingredients = request.body.ingredients;
-    var category = request.body.category;
-    var cost = request.body.cost;
-    var image = request.body.image;
-    var location = request.body.location;
+var name = request.body.name;
+var description = request.body.description;
+var quantity = request.body.quantity;
+var ingredients = request.body.ingredients;
+var category = request.body.category;
+var cost = request.body.cost;
+var image = request.body.image;
+var location = request.body.location;
 
-    var body = {
-        "name": name,
-        "description": description,
-        "quantity": quantity,
-        "ingredients": ingredients,
-        "category": category,
-        "cost": cost,
-        "image": image,
-        "location": location
+var body ={
+"name":name,
+"description":description,
+"quantity":quantity,
+"ingredients":ingredients,
+"category":category,
+"cost":cost,
+"image":image,
+"location":location
 
-    }
+}
+
     db.menu.create(body).then(function(menu) {
         // response.json(menu.toJSON());
 
@@ -142,10 +144,7 @@ app.post('/admin', function(request, response) {
     }, function(e) {
         console.log(e);
     });
-
-
-
-
+    
 });
 
 
