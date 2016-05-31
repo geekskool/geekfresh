@@ -1,14 +1,29 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 
 <head>
     <title> Geek Fresh </title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
 </head>
 
-<body onload="loadDoc()">
+<body>
+   <div id="header">
+<i class="fa fa-glide-g" aria-hidden="true"></i>
+    </div>
+<div id="menu">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Login</a></li>
+
+      </ul>
+</div>
     <div id="main-div">
         <template id="inside-div">
-            <img src="">
+            <img src="" class= "image-size">
             <div id="desc"></div>
         </template>
     </div>
@@ -26,18 +41,20 @@
                     firstChild.src = '/images/' + responseText[i].image;
                      var lastChild = content.lastElementChild;
                     lastChild.innerHTML = responseText[i].description;
-
                     var main = document.getElementById("main-div");
                     main.appendChild(document.importNode(content, true));
                     // var immg = content.
-
                 }
             }
         };
-
         xhttp.open("GET", "/all", true);
         xhttp.send();
     }
+    var body = document.getElementsByTagName("body")[0];
+    body.addEventListener("load", init(), false);
+    function init() {s
+            loadDoc();
+    }; 
     </script>
 </body>
 
