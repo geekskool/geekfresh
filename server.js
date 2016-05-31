@@ -78,6 +78,18 @@ app.get('/all', function(request, response) {
     });
 });
 
+app.get('/allNames',function(request,response){
+    db.menu.findAll().then(function(items) {
+        var arr =[];
+        for(var i in items){
+            arr.push((items[i].name));
+        }
+        response.send(arr);
+    }, function(e) {
+        response.status(404).send();
+    });
+});
+
 app.post('/checkout', function(request, response) {
     db.checkout.create(request.body).then(function(checkout) {
         response.json(checkout.toJSON());
@@ -86,29 +98,41 @@ app.post('/checkout', function(request, response) {
     });
 });
 
+var fs = require('fs');
+var busboy = require('connect-busboy');
+app.use(busboy()); 
+
 app.post('/admin', function(request, response) {
-    var name = request.body.foodName;
-    var description = request.body.foodDesc;
-    var quantity = request.body.quantity;
-    var ingredients = request.body.ingredients;
-    var category = request.body.category;
-    var cost = request.body.cost;
-    var image = request.body.image;
-    var location = request.body.location;
-    var body = {
-        "name":name,
-        "description":description,
-        "quantity":quantity,
-        "ingredients":ingredients,
-        "category":category,
-        "cost":cost,
-        "image":image,
-        "location":location
-    }
-    db.menu.create(body).then(function(menu) {
-        response.sendFile(__dirname+'/public/admin.html');
-    }, function(e) {
-        console.log(e);
+    var fstream;
+    request.pipe(request.busboy);
+    request.busboy.on('file', function (fieldname, file, filename) { 
+        fstream = fs.createWriteStream(__dirname + '/public/images/' + filename);
+        file.pipe(fstream);
+        var name = request.body.foodName;
+        var description = request.body.foodDesc;
+        var quantity = request.body.quantity;
+        var ingredients = request.body.ingredients;
+        var category = request.body.category;
+        var cost = request.body.cost;
+        var image = request.body.image;
+        var location = request.body.location;
+        var body = {
+            "name":name,
+            "description":description,
+            "quantity":quantity,
+            "ingredients":ingredients,
+            "category":category,
+            "cost":cost,
+            "image":image,
+            "location":location
+        }
+        db.menu.create(body).then(function(menu) {
+            response.sendFile(__dirname + '/public/admin.html');
+        }, function(e) {
+            console.log(e);
+        });   
+        fstream.on('close', function () {  
+        });
     });    
 });
 
@@ -124,6 +148,6 @@ app.get('/:id', function(request, response) {
 
 db.sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
-        console.log("listening at port" + PORT);
+        console.log("Listening at port " + PORT);
     });
 });

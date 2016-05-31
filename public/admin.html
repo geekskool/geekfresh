@@ -23,7 +23,7 @@
 			</ul>
 		</div>
 		<div class="content1" style="display:block">
-			<form action="/admin" method="post">
+			<form action="/admin" enctype="multipart/form-data" method="post">
 				<label for="foodName">Food Name</label>
 				<input class="inputContent" type="text" id="foodName" name="foodName"/><br/>
 				<label for="foodDesc">Food Description</label>
@@ -37,13 +37,14 @@
 				<label for="cost">Food cost</label>
 				<input class="inputContent" type="text" id="cost" name="cost"/><br/>
 				<label for="image">Image</label>
-				<input class="inputContent" type="text" id="image" name="image"/><br/>
+				<input type="file" id="image" name="image"><br/>
 				<label for="location">Location</label>
 				<input class="inputContent" type="text" id="location" name="location"/><br/>
 				<button class="addBtn" id="addBtn" type="submit">Add Menu</button>
 			</form>
 		</div>
 		<div class="content2" style="display: none">
+			<div id="menu"></div>
 			<form action="/admin" method="post">
 				<label for="foodName">Food Name</label>
 				<input class="inputContent" type="text" id="foodName" name="foodName"/><br/>

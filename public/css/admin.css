@@ -88,7 +88,7 @@ ul#nav li a.selected {
 	padding: 15px;
 }
 
-input, textarea {
+.inputContent, textarea {
     font-size: 12px;
     outline: none;
     color: #777;
