@@ -1,4 +1,10 @@
+require('./password.js')();
+
 var PORT = process.env.PORT || 3000;
+var jsonf = require('./config.json');
+
+
+
 var db = require('./db.js')
 var express = require('express');
 var session = require('express-session');
@@ -14,8 +20,8 @@ var sessionOptions = {
 }
 var sess;
 var user = "admin";
-var salt = rand(160, 36);
-var pass = sha256(salt + sha256("password"));
+var salt = "secret";
+//var pass = sha256(salt + sha256("password"));
 var app = express();
 
 app.use(session(sessionOptions));
@@ -26,13 +32,13 @@ app.use(bodyParser.urlencoded({ type: "application/x-www-form-urlencoded" }));
 app.get('/', function(request, response) {
     console.log("at index");
 });
-
+// /admin/login --->post
 app.post('/login', function(request, response) {
     var username = request.body.username
     var password = request.body.password
     if (user === username) {
-        var hashedPass = sha256(salt + password)
-        if (pass == hashedPass) {
+        var hashedPass = password;
+        if (jsonf.password == hashedPass) {
             request.session.username = username
             response.sendFile(__dirname + '/public/admin.html')
         } else {
@@ -46,9 +52,9 @@ app.post('/login', function(request, response) {
 app.get("/admin", function(request, response) {
     sess = request.session
     if (typeof sess !== "undefined" && sess.username) {
-        response.sendFile(__dirname + '/public/admin.html')
-    } else {
-        response.sendFile(__dirname + '/public/login.html')
+        response.sendFile(__dirname + '/public/admin.html')   // Add view here:
+    } else {                                                        
+        response.sendFile(__dirname + '/public/login.html')  // get(/admin/login) -->login .html
     }
 });
 
@@ -113,12 +119,12 @@ app.post('/admin', function(request, response) {
 });
 
 app.get('/:id', function(request, response) {
-    var id1 = parseInt(request.params.id, 10);
+    var id1 = parseInt(request.query.id, 10);
     db.menu.findById(id1).then(function(items) {
-        var temp = items.image;
-        response.sendFile(__dirname + items.image);
+        // var temp = items.name;
+        response.send(items);
     }, function(e) {
-        response.status(500).send();
+        response.status(404).send();
     });
 });
 
