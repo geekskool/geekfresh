@@ -1,4 +1,6 @@
 var PORT = process.env.PORT || 3000;
+var formidable = require('formidable');
+
 var db = require('./db.js')
 var express = require('express');
 var session = require('express-session');
@@ -98,24 +100,17 @@ app.post('/checkout', function(request, response) {
     });
 });
 
-var fs = require('fs');
-var busboy = require('connect-busboy');
-app.use(busboy()); 
-
-app.post('/admin', function(request, response) {
-    var fstream;
-    request.pipe(request.busboy);
-    request.busboy.on('file', function (fieldname, file, filename) { 
-        fstream = fs.createWriteStream(__dirname + '/public/images/' + filename);
-        file.pipe(fstream);
-        var name = request.body.foodName;
-        var description = request.body.foodDesc;
-        var quantity = request.body.quantity;
-        var ingredients = request.body.ingredients;
-        var category = request.body.category;
-        var cost = request.body.cost;
-        var image = request.body.image;
-        var location = request.body.location;
+app.post('/admin', function (request, response){
+    var form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+        var name = fields.foodName;
+        var description = fields.foodDesc;
+        var quantity = fields.quantity;
+        var ingredients = fields.ingredients;
+        var category = fields.category;
+        var cost = fields.cost;
+        var image = files.image.name;
+        var location = fields.location;
         var body = {
             "name":name,
             "description":description,
@@ -127,13 +122,18 @@ app.post('/admin', function(request, response) {
             "location":location
         }
         db.menu.create(body).then(function(menu) {
-            response.sendFile(__dirname + '/public/admin.html');
+            response.sendFile(__dirname + '/public/admin.html')
         }, function(e) {
-            console.log(e);
-        });   
-        fstream.on('close', function () {  
-        });
-    });    
+           console.log(e)
+        })
+    });
+    form.on('fileBegin', function (name, file){
+        file.path = __dirname + '/public/images/' + file.name;
+    });
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+    response.sendFile(__dirname + '/public/admin.html');
 });
 
 app.get('/:id', function(request, response) {
