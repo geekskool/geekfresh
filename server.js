@@ -140,7 +140,7 @@ app.get('/:id', function(request, response) {
     var id1 = parseInt(request.params.id, 10);
     db.menu.findById(id1).then(function(items) {
         var temp = items.image;
-        response.sendFile(__dirname + items.image);
+        response.sendFile(__dirname + "/public/images/" +items.image);
     }, function(e) {
         response.status(500).send();
     });
