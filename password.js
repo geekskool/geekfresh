@@ -23,8 +23,4 @@ fs.writeFile('config.json', obj, function (err) {
 
     jsonfile.writeFileSync('./config.json', obj);
 
-
-
-
-
 };
