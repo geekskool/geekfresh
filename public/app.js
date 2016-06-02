@@ -21,7 +21,7 @@ function getJSON(url, callback) {
 function makeDiv() {
     getJSON('/all', function(responseText) {
     // console.log(typeof text);
-    console.log(JSON.stringify(responseText));
+    // console.log(JSON.stringify(responseText));
     for (var i = 0; i < responseText.length; i++) {
         var content = document.querySelector("template").content;
         var firstChild = content.firstElementChild
