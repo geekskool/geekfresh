@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ type: "application/x-www-form-urlencoded" }));
 app.get('/', function(request, response) {
     console.log("at index");
 });
-// /admin/login --->post
+
 app.post('/login', function(request, response) {
     var username = request.body.username
     var password = request.body.password
@@ -40,24 +40,31 @@ app.post('/login', function(request, response) {
         var hashedPass = password;
         if (jsonf.password == hashedPass) {
             request.session.username = username
-            response.sendFile(__dirname + '/public/admin.html')
+            response.redirect('/admin')
         } else {
             response.send("Invalid User Id or Password")
         }
     } else {
         response.send("Invalid User Id or Password")
     }
-});
+})
+
+app.get('/admin/login', function (request, response) {
+    response.sendFile(__dirname + '/public/admin/login.html')
+})
+
+app.get('/login', function (request, response) {
+    response.sendFile(__dirname + '/public/admin/login.html')
+})
 
 app.get("/admin", function(request, response) {
     sess = request.session
     if (typeof sess !== "undefined" && sess.username) {
-        response.sendFile(__dirname + '/public/admin.html')   // Add view here:
+        response.sendFile(__dirname+'/public/admin/admin.html')
     } else {                                                        
-        response.sendFile(__dirname + '/public/login.html')  // get(/admin/login) -->login .html
+        response.redirect('/admin/login')
     }
-});
-
+})
 app.get("/user", function(request, response) {
     sess = request.session
     response.send(sess.username)
@@ -72,9 +79,9 @@ app.get("/logout", function(request, response) {
                 response.render("pages/errorPage", { status: 500, error: "Internal Server Error" })
             }
         })
-        response.sendFile(__dirname + '/public/login.html')
+        response.redirect('/login')
     }
-});
+})
 
 app.get('/all', function(request, response) {
     db.menu.findAll().then(function(items) {
