@@ -109,7 +109,7 @@ app.post('/delete', function (request, response) {
             name: selectedMenu
         }
     }).then(function() {
-        response.sendFile(__dirname + '/public/admin/admin.html')
+        response.redirect('/admin')
     })
 })
 
