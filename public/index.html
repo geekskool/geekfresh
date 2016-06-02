@@ -7,18 +7,18 @@
       <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
    </head>
    <body>
+      
       <div id="menu">
-         <nav class="fixed-nav-bar">
-            <ul>
-               <div>
-                  <li><i class="fa fa-glide-g" aria-hidden="true" id="header"></i></li>
-               </div>
-               <li><a href="#">Home</a></li>
-               <li><a href="#">Login</a></li>
-               <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"> Cart</i></a></li>
-            </ul>
+          <nav class="fixed-nav-bar">
+         
+         <ul>
+            <div><li><i class="fa fa-glide-g" aria-hidden="true" id="header"></i></li></div>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Login</a></li>
+         </ul>
       </div>
-      </nav>
+    </nav>
       <div id="main-div">
       <template id="inside-div">
          <img src="" class= "image-size">
@@ -26,34 +26,16 @@
          </button>
          <div id="desc"></div>
       </template>
+      <script type="text/javascript" src="app.js "></script>
       <script>
-         function loadDoc() {
-             var str = "__dirname"
-             var xhttp = new XMLHttpRequest();
-             xhttp.onreadystatechange = function() {
-                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                     var responseText = JSON.parse(xhttp.responseText);
-                     // console.log(responseText);
-                     for (var i = 0; i < responseText.length; i++) {
-                         var content = document.querySelector("template").content;
-                         var firstChild = content.firstElementChild
-                         firstChild.src = '/images/' + responseText[i].image;
-                          var lastChild = content.lastElementChild;
-                         lastChild.innerHTML = responseText[i].description;
-                         var main = document.getElementById("main-div");
-                         main.appendChild(document.importNode(content, true));
-                         // var immg = content.
-                     }
-                 }
-             };
-             xhttp.open("GET", "/all", true);
-             xhttp.send();
-         }
+         
          var body = document.getElementsByTagName("body")[0];
          body.addEventListener("load", init(), false);
          function init() {
-                 loadDoc();
+                 makeDiv();
          }; 
       </script>
+      
+
    </body>
 </html>
