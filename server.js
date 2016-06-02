@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 var sha256 = require('js-sha256');
 var rand = require('csprng');
 var cookieSecret = process.env.COOKIE_SECRET || "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
-// session management
+    // session management
 var sessionOptions = {
     secret: cookieSecret,
     resave: true,
@@ -52,9 +52,9 @@ app.post('/login', function(request, response) {
 app.get("/admin", function(request, response) {
     sess = request.session
     if (typeof sess !== "undefined" && sess.username) {
-        response.sendFile(__dirname + '/public/admin.html')   // Add view here:
-    } else {                                                        
-        response.sendFile(__dirname + '/public/login.html')  // get(/admin/login) -->login .html
+        response.sendFile(__dirname + '/public/admin.html') // Add view here:
+    } else {
+        response.sendFile(__dirname + '/public/login.html') // get(/admin/login) -->login .html
     }
 });
 
@@ -84,10 +84,10 @@ app.get('/all', function(request, response) {
     });
 });
 
-app.get('/allNames',function(request,response){
+app.get('/allNames', function(request, response) {
     db.menu.findAll().then(function(items) {
-        var arr =[];
-        for(var i in items){
+        var arr = [];
+        for (var i in items) {
             arr.push((items[i].name));
         }
         response.send(arr);
@@ -104,9 +104,9 @@ app.post('/checkout', function(request, response) {
     });
 });
 
-app.post('/admin', function (request, response){
+app.post('/admin', function(request, response) {
     var form = new formidable.IncomingForm();
-    form.parse(request, function (err, fields, files) {
+    form.parse(request, function(err, fields, files) {
         var name = fields.foodName;
         var description = fields.foodDesc;
         var quantity = fields.quantity;
@@ -116,36 +116,74 @@ app.post('/admin', function (request, response){
         var image = files.image.name;
         var location = fields.location;
         var body = {
-            "name":name,
-            "description":description,
-            "quantity":quantity,
-            "ingredients":ingredients,
-            "category":category,
-            "cost":cost,
-            "image":image,
-            "location":location
+            "name": name,
+            "description": description,
+            "quantity": quantity,
+            "ingredients": ingredients,
+            "category": category,
+            "cost": cost,
+            "image": image,
+            "location": location
         }
         db.menu.create(body).then(function(menu) {
             response.sendFile(__dirname + '/public/admin.html')
         }, function(e) {
-           console.log(e)
+            console.log(e)
         })
     });
-    form.on('fileBegin', function (name, file){
+    form.on('fileBegin', function(name, file) {
         file.path = __dirname + '/public/images/' + file.name;
     });
-    form.on('file', function (name, file){
+    form.on('file', function(name, file) {
         console.log('Uploaded ' + file.name);
     });
     response.sendFile(__dirname + '/public/admin.html');
 });
 
+
+app.post('/updatemenu', function(request, response) {
+
+    // var fid = parseInt(request.params.id, 10);
+    var fid = request.body.foodId;
+    var name = request.body.foodName;
+    var description = request.body.foodDesc;
+    var quantity = request.body.quantity;
+    var ingredients = request.body.ingredients;
+    var category = request.body.category;
+    var cost = request.body.cost;
+    var image = request.body.image;
+    var location = request.body.location;
+    var body = {
+        "name": name,
+        "description": description,
+        "quantity": quantity,
+        "ingredients": ingredients,
+        "category": category,
+        "cost": cost,
+        "image": image,
+        "location": location
+    }
+
+    db.menu.findById(fid).then(function(menu) {
+        menu.update(body).then(function(menu) {
+            response.sendFile(__dirname+'/public/admin/admin.html');
+        });
+
+    });
+
+
+
+
+
+
+}); //end put
+
 app.get('/:id', function(request, response) {
     var id1 = parseInt(request.query.id, 10);
-    db.menu.findById(id1).then(function(items) {        
+    db.menu.findById(id1).then(function(items) {
         response.send(items);
         var temp = items.image;
-        response.sendFile(__dirname + "/public/images/" +items.image);
+        response.sendFile(__dirname + "/public/images/" + items.image);
     }, function(e) {
         response.status(404).send();
     });
