@@ -21,7 +21,6 @@ var sessionOptions = {
 var sess;
 var user = "admin";
 var salt = "secret";
-//var pass = sha256(salt + sha256("password"));
 var app = express();
 
 app.use(session(sessionOptions));
@@ -91,17 +90,28 @@ app.get('/all', function(request, response) {
     });
 });
 
-app.get('/allNames',function(request,response){
-    db.menu.findAll().then(function(items) {
-        var arr =[];
+app.get('/allNames',function (request,response){
+    db.menu.findAll().then(function (items) {
+        var arr =[]
         for(var i in items){
-            arr.push((items[i].name));
+            arr.push((items[i].name))
         }
-        response.send(arr);
+        response.send(arr)
     }, function(e) {
-        response.status(404).send();
-    });
-});
+        response.status(404).send()
+    })
+})
+
+app.post('/delete', function (request, response) {
+    var selectedMenu = request.body.deleteMenu
+    db.menu.destroy({
+        where: {
+            name: selectedMenu
+        }
+    }).then(function() {
+        response.sendFile(__dirname + '/public/admin/admin.html')
+    })
+})
 
 
 app.post('/checkout', function(request, response) {

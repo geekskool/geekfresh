@@ -19,6 +19,7 @@
 			<ul id="nav">
 				<li><a id="addAnchor" class="selected" href="#" onclick="displayAddMenu()">Add Menu</a></li>
 				<li><a id="updateAnchor" href="#" onclick="displayUpdateMenu()">Update Menu</a></li>
+				<li><a id="deleteAnchor" href="#" onclick="displayDeleteMenu()">Delete Menu</a></li>
 				<li><a href="/logout">Logout</a></li>
 			</ul>
 		</div>
@@ -71,6 +72,14 @@
 				<input class="inputContent" type="text" id="updateLocation" name="location"/><br/>
 				<button class="updateBtn" id="updateBtn" type="submit" style="display:none">Update Menu</button>
 			</form>
+		</div>
+		<div class="content3" style="display:none">
+			<form action="/delete" method="post" id="deleteMenuForm">
+		        <select id="deleteMenuList" name="deleteMenu" onchange="onSelectDeleteMenu()">
+		        	<option>Select Menu</option>
+		        </select><br/>
+		        <button class="deleteBtn" id="deleteBtn" type="submit" style="display: none">Delete Menu</button>
+        	</form>
 		</div>
 	</div>
 </body>

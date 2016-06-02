@@ -1,20 +1,41 @@
-function displayUpdateMenu() {
-	displayMenu()
-	var a1 = document.getElementById("addAnchor")
-	a1.classList.remove("selected");
-	var a2 = document.getElementById("updateAnchor")
-	a2.classList.add("selected");
-	document.querySelector(".content1").style.display = "none"
-	document.querySelector(".content2").style.display = "block"
-}
-
-function displayAddMenu(argument) {
+function displayAddMenu() {
 	var a1 = document.getElementById("updateAnchor")
 	a1.classList.remove("selected");
 	var a2 = document.getElementById("addAnchor")
 	a2.classList.add("selected");
+	var a3 = document.getElementById("deleteAnchor")
+	a3.classList.remove("selected");
 	document.querySelector(".content1").style.display = "block"
 	document.querySelector(".content2").style.display = "none"
+	document.querySelector(".content3").style.display = "none"
+}
+
+function displayUpdateMenu() {
+	var dropDownList = document.getElementById("menuList")
+	displayMenu(dropDownList)
+	var a1 = document.getElementById("addAnchor")
+	a1.classList.remove("selected");
+	var a2 = document.getElementById("updateAnchor")
+	a2.classList.add("selected");
+	var a3 = document.getElementById("deleteAnchor")
+	a3.classList.remove("selected");
+	document.querySelector(".content1").style.display = "none"
+	document.querySelector(".content2").style.display = "block"
+	document.querySelector(".content3").style.display = "none"
+}
+
+function displayDeleteMenu() {
+	var dropDownList = document.getElementById("deleteMenuList")
+	displayMenu(dropDownList)
+	var a1 = document.getElementById("addAnchor")
+	a1.classList.remove("selected");
+	var a2 = document.getElementById("updateAnchor")
+	a2.classList.remove("selected");
+	var a3 = document.getElementById("deleteAnchor")
+	a3.classList.add("selected");
+	document.querySelector(".content1").style.display = "none"
+	document.querySelector(".content2").style.display = "none"
+	document.querySelector(".content3").style.display = "block"	
 }
 
 function displayUser() {
@@ -35,7 +56,12 @@ function displayUser() {
 	xhttp.send()
 }
 
-function displayMenu() {
+function displayMenu(dropDownElement) {
+	var selectBox = dropDownElement
+	for(var i = selectBox.options.length-1; i >= 1; i--)
+    {
+        selectBox.remove(i)
+    }
 	var xhttp
 	if (window.XMLHttpRequest) {
 	    xhttp = new XMLHttpRequest()
@@ -49,18 +75,18 @@ function displayMenu() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	var json = JSON.parse(xhttp.responseText)
 			for(var x in json) {
-	    		addMenu(json[x])
+	    		addMenu(json[x], dropDownElement)
 	    	}
 	    }
 	}
 	xhttp.send()
 }
 
-function addMenu(value) {
+function addMenu(value, dropDownElement) {
 	var menuDropDownList = document.getElementById("menuList")
     var option = document.createElement("option")
     option.text = value
-    menuDropDownList.add(option)
+    dropDownElement.add(option)
 }
 
 function onSelect() {
@@ -78,6 +104,10 @@ function onSelect() {
 	document.getElementById('updateImage').readOnly = true
 	document.getElementById('updateLocation').readOnly = true
 	document.getElementById("menuForm").style.display = "block"
+}
+
+function onSelectDeleteMenu() {
+	document.getElementById("deleteBtn").style.display = "block"
 }
 
 function fillUpdateForm(selectedMenu) {
@@ -122,8 +152,7 @@ function enableEdit() {
 	document.getElementById('updateImage').readOnly = false
 	document.getElementById('updateLocation').readOnly = false
 	document.getElementById('editBtn').style.display = "none"
-	document.getElementById('updateBtn').style.display = "block"
-	
+	document.getElementById('updateBtn').style.display = "block"	
 }
 
 
