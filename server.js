@@ -163,7 +163,7 @@ app.post('/admin', function (request, response){
             "location":location
         }
         db.menu.create(body).then(function(menu) {
-            response.sendFile(__dirname + '/public/admin.html')
+            response.sendFile(__dirname + '/public/admin/admin.html')
         }, function(e) {
            console.log(e)
         })
@@ -174,7 +174,7 @@ app.post('/admin', function (request, response){
     form.on('file', function (name, file){
         console.log('Uploaded ' + file.name);
     });
-    response.sendFile(__dirname + '/public/admin.html');
+    response.sendFile(__dirname + '/public/admin/admin.html');
 });
 
 app.get('/:id', function(request, response) {
