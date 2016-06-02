@@ -166,7 +166,7 @@ app.post('/updatemenu', function(request, response) {
 
     db.menu.findById(fid).then(function(menu) {
         menu.update(body).then(function(menu) {
-            response.sendFile(__dirname+'/public/admin/admin.html');
+            response.redirect('/admin');
         });
 
     });
