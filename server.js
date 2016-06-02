@@ -96,11 +96,41 @@ app.get('/allNames',function(request,response){
     });
 });
 
+
 app.post('/checkout', function(request, response) {
     db.checkout.create(request.body).then(function(checkout) {
         response.json(checkout.toJSON());
     }, function(e) {
         console.log(e);
+    });
+});
+
+app.get('/check/:id', function(request, response) {
+    var id1 = parseInt(request.params.id, 10);
+    db.checkout.findById(id1).then(function(items) {
+        
+        response.json(items);
+    }, function(e) {
+        response.status(500).send();
+    });
+});
+
+app.delete('/del/:id', function(request, response) {
+    var deleteId = parseInt(request.params.id,10);
+    db.checkout.destroy({
+        where: {
+            id: deleteId
+        }
+    }).then(function(rowDeleted) {
+        if(rowDeleted == 0) {
+            response.status(404).json({
+                error: "no item with that id"
+            });
+        } else {
+            response.status(204).send();
+        }
+    }, function() {
+        response.status.send(500).send();
     });
 });
 
