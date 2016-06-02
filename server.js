@@ -2,7 +2,7 @@ require('./password.js')();
 
 var PORT = process.env.PORT || 3000;
 var jsonf = require('./config.json');
-
+var formidable = require('formidable');
 
 
 var db = require('./db.js')
@@ -84,6 +84,18 @@ app.get('/all', function(request, response) {
     });
 });
 
+app.get('/allNames',function(request,response){
+    db.menu.findAll().then(function(items) {
+        var arr =[];
+        for(var i in items){
+            arr.push((items[i].name));
+        }
+        response.send(arr);
+    }, function(e) {
+        response.status(404).send();
+    });
+});
+
 app.post('/checkout', function(request, response) {
     db.checkout.create(request.body).then(function(checkout) {
         response.json(checkout.toJSON());
@@ -92,37 +104,48 @@ app.post('/checkout', function(request, response) {
     });
 });
 
-app.post('/admin', function(request, response) {
-    var name = request.body.foodName;
-    var description = request.body.foodDesc;
-    var quantity = request.body.quantity;
-    var ingredients = request.body.ingredients;
-    var category = request.body.category;
-    var cost = request.body.cost;
-    var image = request.body.image;
-    var location = request.body.location;
-    var body = {
-        "name":name,
-        "description":description,
-        "quantity":quantity,
-        "ingredients":ingredients,
-        "category":category,
-        "cost":cost,
-        "image":image,
-        "location":location
-    }
-    db.menu.create(body).then(function(menu) {
-        response.sendFile(__dirname+'/public/admin.html');
-    }, function(e) {
-        console.log(e);
-    });    
+app.post('/admin', function (request, response){
+    var form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+        var name = fields.foodName;
+        var description = fields.foodDesc;
+        var quantity = fields.quantity;
+        var ingredients = fields.ingredients;
+        var category = fields.category;
+        var cost = fields.cost;
+        var image = files.image.name;
+        var location = fields.location;
+        var body = {
+            "name":name,
+            "description":description,
+            "quantity":quantity,
+            "ingredients":ingredients,
+            "category":category,
+            "cost":cost,
+            "image":image,
+            "location":location
+        }
+        db.menu.create(body).then(function(menu) {
+            response.sendFile(__dirname + '/public/admin.html')
+        }, function(e) {
+           console.log(e)
+        })
+    });
+    form.on('fileBegin', function (name, file){
+        file.path = __dirname + '/public/images/' + file.name;
+    });
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+    response.sendFile(__dirname + '/public/admin.html');
 });
 
 app.get('/:id', function(request, response) {
     var id1 = parseInt(request.query.id, 10);
-    db.menu.findById(id1).then(function(items) {
-        // var temp = items.name;
+    db.menu.findById(id1).then(function(items) {        
         response.send(items);
+        var temp = items.image;
+        response.sendFile(__dirname + "/public/images/" +items.image);
     }, function(e) {
         response.status(404).send();
     });
@@ -130,6 +153,6 @@ app.get('/:id', function(request, response) {
 
 db.sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
-        console.log("listening at port" + PORT);
+        console.log("Listening at port " + PORT);
     });
 });
