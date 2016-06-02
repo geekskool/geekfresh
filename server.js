@@ -21,7 +21,6 @@ var sessionOptions = {
 var sess;
 var user = "admin";
 var salt = "secret";
-//var pass = sha256(salt + sha256("password"));
 var app = express();
 
 app.use(session(sessionOptions));
@@ -32,7 +31,7 @@ app.use(bodyParser.urlencoded({ type: "application/x-www-form-urlencoded" }));
 app.get('/', function(request, response) {
     console.log("at index");
 });
-// /admin/login --->post
+
 app.post('/login', function(request, response) {
     var username = request.body.username
     var password = request.body.password
@@ -40,24 +39,33 @@ app.post('/login', function(request, response) {
         var hashedPass = password;
         if (jsonf.password == hashedPass) {
             request.session.username = username
-            response.sendFile(__dirname + '/public/admin.html')
+            response.redirect('/admin')
         } else {
             response.send("Invalid User Id or Password")
         }
     } else {
         response.send("Invalid User Id or Password")
     }
-});
+})
+
+app.get('/admin/login', function(request, response) {
+    response.sendFile(__dirname + '/public/admin/login.html')
+})
+
+app.get('/login', function(request, response) {
+    response.sendFile(__dirname + '/public/admin/login.html')
+})
 
 app.get("/admin", function(request, response) {
     sess = request.session
     if (typeof sess !== "undefined" && sess.username) {
-        response.sendFile(__dirname + '/public/admin.html') // Add view here:
-    } else {
-        response.sendFile(__dirname + '/public/login.html') // get(/admin/login) -->login .html
-    }
-});
 
+        response.sendFile(__dirname + '/public/admin/admin.html')
+    } else {
+        response.redirect('/admin/login')
+
+    }
+})
 app.get("/user", function(request, response) {
     sess = request.session
     response.send(sess.username)
@@ -72,9 +80,9 @@ app.get("/logout", function(request, response) {
                 response.render("pages/errorPage", { status: 500, error: "Internal Server Error" })
             }
         })
-        response.sendFile(__dirname + '/public/login.html')
+        response.redirect('/login')
     }
-});
+})
 
 app.get('/all', function(request, response) {
     db.menu.findAll().then(function(items) {
@@ -84,23 +92,55 @@ app.get('/all', function(request, response) {
     });
 });
 
+
 app.get('/allNames', function(request, response) {
     db.menu.findAll().then(function(items) {
-        var arr = [];
+        var arr = []
         for (var i in items) {
-            arr.push((items[i].name));
+            arr.push((items[i].name))
         }
-        response.send(arr);
+        response.send(arr)
     }, function(e) {
-        response.status(404).send();
-    });
-});
+        response.status(404).send()
+    })
+})
+
+app.post('/delete', function(request, response) {
+    var selectedMenu = request.body.deleteMenu
+    db.menu.destroy({
+        where: {
+            name: selectedMenu
+        }
+    }).then(function() {
+        response.redirect('/admin')
+    })
+})
+
 
 app.post('/checkout', function(request, response) {
     db.checkout.create(request.body).then(function(checkout) {
         response.json(checkout.toJSON());
     }, function(e) {
         console.log(e);
+    });
+});
+
+app.delete('/del/:id', function(request, response) {
+    var deleteId = parseInt(request.params.id, 10);
+    db.checkout.destroy({
+        where: {
+            id: deleteId
+        }
+    }).then(function(rowDeleted) {
+        if (rowDeleted == 0) {
+            response.status(404).json({
+                error: "no item with that id"
+            });
+        } else {
+            response.status(204).send();
+        }
+    }, function() {
+        response.status.send(500).send();
     });
 });
 
@@ -126,7 +166,7 @@ app.post('/admin', function(request, response) {
             "location": location
         }
         db.menu.create(body).then(function(menu) {
-            response.sendFile(__dirname + '/public/admin.html')
+            response.sendFile(__dirname + '/public/admin/admin.html')
         }, function(e) {
             console.log(e)
         })
@@ -137,7 +177,7 @@ app.post('/admin', function(request, response) {
     form.on('file', function(name, file) {
         console.log('Uploaded ' + file.name);
     });
-    response.sendFile(__dirname + '/public/admin.html');
+    response.sendFile(__dirname + '/public/admin/admin.html');
 });
 
 
@@ -170,10 +210,6 @@ app.post('/updatemenu', function(request, response) {
         });
 
     });
-
-
-
-
 
 
 }); //end put
