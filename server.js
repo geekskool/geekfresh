@@ -204,9 +204,11 @@ app.post('/updatemenu', function(request, response) {
         "location": location
     }
 
+    console.log(body);
+
     db.menu.findById(fid).then(function(menu) {
         menu.update(body).then(function(menu) {
-            response.redirect('/admin');
+            response.redirect("/admin");
         });
 
     });
