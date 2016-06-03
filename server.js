@@ -183,6 +183,7 @@ app.post('/admin', function(request, response) {
 
 app.post('/updatemenu', function(request, response) {
     var form = new formidable.IncomingForm()
+    var imageChanged = false
     form.parse(request, function(err, fields, files) {
         var fid = fields.foodId
         var name = fields.foodName
@@ -191,7 +192,15 @@ app.post('/updatemenu', function(request, response) {
         var ingredients = fields.ingredients
         var category = fields.category
         var cost = fields.cost
-        var image = files.image.name
+        var image
+        if(files.image.name) {
+            image = files.image.name
+            imageChanged = true
+            console.log("in if " + imageChanged)
+        } else {
+            image = fields.image
+            console.log("in else " + imageChanged)
+        }
         var location = fields.location
         var body = {
             "name": name,
@@ -209,12 +218,16 @@ app.post('/updatemenu', function(request, response) {
             })
         })
     })
-    form.on('fileBegin', function(name, file) {
-        file.path = __dirname + '/public/images/' + file.name
-    })
-    form.on('file', function(name, file) {
-        console.log('Uploaded ' + file.name)
-    })
+    if(imageChanged) {console.log("inside file upload if " + imageChanged)
+        form.on('fileBegin', function(name, file) {
+            console.log(file.path);
+            console.log(file.name);
+            file.path = __dirname + '/public/images/' + file.name
+        });
+        form.on('file', function(name, file) {
+            console.log('Uploaded ' + file.name)
+        })
+    }    
     response.redirect("/admin")
 })
 
