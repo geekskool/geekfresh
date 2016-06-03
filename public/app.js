@@ -33,10 +33,11 @@ function makeDiv() {
             var btn = content.querySelector('button');
             btn.value = JSON.stringify(responseText[i]);
             var cost = content.querySelector('p');
-            cost.innerHTML = responseText[i].cost;
+            cost.innerHTML = "Rs " + responseText[i].cost;
 
-            console.log("Cost : " + responseText[i].cost);
+            
             console.log("description : " + responseText[i].description);
+            console.log("Cost : " + responseText[i].cost);
             console.log("description : " + responseText[i].image);
 
 
