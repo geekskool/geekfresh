@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
+	<input type="checkbox" id="menuToggle">	
+	<label for="menuToggle" class="menu-icon">&#9776</label>
 	<div id="header">
 		<div class="logo">
 			<a href="#">GeekFresh</a>
@@ -14,18 +16,18 @@
 			<label id="userLbl" for="userLoggedIn"><script>displayUser()</script> </label>
 		</div>
 	</div>
-	<div id="container">
-		<div class="sidebar">
+	<!-- <div id="container"> -->
+		<nav class="sidebar">
 			<ul id="nav">
 				<li><a id="addAnchor" class="selected" href="#" onclick="displayAddMenu()">Add Menu</a></li>
 				<li><a id="updateAnchor" href="#" onclick="displayUpdateMenu()">Update Menu</a></li>
 				<li><a id="deleteAnchor" href="#" onclick="displayDeleteMenu()">Delete Menu</a></li>
 				<li><a href="/logout">Logout</a></li>
 			</ul>
-		</div>
+		</nav>
 		<div class="content1" style="display:block">
 			<form action="/admin" enctype="multipart/form-data" method="post">
-				<label for="foodName">Food Name</label>
+				<label for="foodName" id="foodName">Food Name</label>
 				<input class="inputContent" type="text" id="foodName" name="foodName"/><br/>
 				<label for="foodDesc">Food Description</label>
 				<textarea class="inputContent" id="foodDesc" name="foodDesc"></textarea><br/>
@@ -81,8 +83,6 @@
 		        <button class="deleteBtn" id="deleteBtn" type="submit" style="display: none">Delete Menu</button>
         	</form>
 		</div>
-	</div>
+	<!-- </div> -->
 </body>
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum velit consectetur repellat animi nam veniam, tempora hic, expedita doloribus omnis provident nesciunt, eveniet rem harum quia magni ipsum minima deleniti!
 </html>

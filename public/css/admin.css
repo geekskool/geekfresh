@@ -6,7 +6,7 @@
 }
 
 body {
-	background-color: #f0f0f0;
+	/*background-color: #f0f0f0;*/
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	color: gray;
 }
@@ -15,9 +15,13 @@ a {
 	text-decoration: none;
 }
 
+li {
+	list-style-type: none;
+}
+
 div#header {
 	width: 100%;
-	background-color: #c7d0d2;
+	background-color: gray;
 	height: 50px;
 	margin: 0 auto;
 }
@@ -25,7 +29,7 @@ div#header {
 .logo {
 	float: left;
 	margin-top: 10px;
-	margin-left: 10px;
+	margin-left: 30px;
 }
 
 .logo a {
@@ -46,11 +50,40 @@ div#container {
 	margin: 0 auto;
 }
 
-.sidebar {
-	width: 250px;
-	height: 100%;
-	background-color: 989D9E;
+.menu-icon {
+	color: white;
 	float: left;
+	padding-top: 15px;
+	padding-left: 10px;
+	cursor: pointer;
+}
+
+#menuToggle {
+	display: none;
+}
+
+#menuToggle:checked ~ .sidebar {
+	position: absolute;
+	left: 0;
+}
+
+.sidebar {
+	width: 240px;
+	height: 100%;
+	background-color: gray;
+	float: left;
+	margin-top: 1px;
+	position: absolute;
+	left: -240px;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+ul#nav li:last-child a {
+	border-bottom: none;
 }
 
 ul#nav li {
@@ -58,9 +91,12 @@ ul#nav li {
 }
 
 ul#nav li a {
-	color: gray;
+	height: 50px;
+	color: white;
 	display: block;
-	padding:10px;
+	padding-top: 16px;
+	padding-left: 10px;
+	/*padding:10px;*/
 	font-size: 0.8em;
 	border-bottom: 1px solid white;
 	-webkit-transition: 0.2s;
@@ -70,22 +106,25 @@ ul#nav li a {
 }
 
 ul#nav li a:hover {
-	background-color: gray;
+	background-color: #454747;
 	color: white;
 	padding-left: 30px;
 }
 
 ul#nav li a.selected {
-	background-color: gray;
+	background-color: #454747;
 	color: white;
 }
 
 .content1, .content2, .content3 {
-	width: auto;
+	width: 80%;
 	height: 100%;
 	background-color: white;
-	margin-left: 250px;
+	margin-left: 25px;
 	padding: 15px;
+	float: right;
+	margin: auto;
+	box-sizing: border-box;
 }
 
 input.file {
@@ -111,7 +150,7 @@ button {
 	width: 80px;
 	height: 40px;
 	color: white;
-	background-color: #c7d0d2;
+	background-color: gray;
 	border-radius: 2px;
 	cursor: pointer;
 	border: 1px solid #c7d0d2;
