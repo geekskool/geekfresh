@@ -2,7 +2,6 @@
 	margin: 0;
 	border: 0;
 	padding: 0;
-	box-sizing: border-box;
 }
 
 body {
@@ -104,7 +103,7 @@ ul#nav li {
 }
 
 ul#nav li a {
-	height: 50px;
+	height: 30px;
 	color: white;
 	display: block;
 	padding-top: 16px;
@@ -136,7 +135,7 @@ ul#nav li a.selected {
 	margin: auto;
 }
 
-input.file {
+input.file, input.updateFile {
 	margin-left: 150px;
 }
 
@@ -172,6 +171,8 @@ button {
 	padding: 2px 2px 2px 2px;
 	border: 1px solid #c7d0d2;
 }
+
+
 
 
 

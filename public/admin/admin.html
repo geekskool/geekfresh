@@ -52,12 +52,12 @@
 		        	<option>Select Menu</option>
 		        </select>
         	</form>
-			<form action="/updatemenu" method="post" id="menuForm" style="display:none">
+			<form action="/updatemenu" method="post" enctype="multipart/form-data" id="menuForm" style="display:none">
 				<a href="#" class="editBtn" id="editBtn" onclick="enableEdit()">Edit Menu</a><br/>
 				<label for="foodId">Food ID</label>
-				<input class="inputContent" type="text" id="updateFoodId" name="foodId" value=""  />
+				<input class="inputContent" type="text" id="updateFoodId" name="foodId"/>
 				<label for="foodName">Food Name</label>
-				<input class="inputContent" type="text" id="updateFoodName" name="foodName" value=""  />
+				<input class="inputContent" type="text" id="updateFoodName" name="foodName"/>
 				<label for="foodDesc">Food Description</label>
 				<textarea class="inputContent" id="updateFoodDesc" name="foodDesc"></textarea>
 				<label for="quantity">Quantity</label>
@@ -70,6 +70,8 @@
 				<input class="inputContent" type="text" id="updateCost" name="cost"/>
 				<label for="image">Image</label>
 				<input class="inputContent" type="text" id="updateImage" name="image"/>
+				<input class="updateFile" type="file" id="updateImageFile" name="image" style="display: none">
+				<span id="fileSpan" style="display: none"></span>
 				<label for="location">Location</label>
 				<input class="inputContent" type="text" id="updateLocation" name="location"/>
 				<button class="updateBtn" id="updateBtn" type="submit" style="display:none">Update Menu</button>
