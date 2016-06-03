@@ -23,6 +23,13 @@ body {
     margin-top: -25px;
 }
 
+#cost {
+    font-size: 25px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: -25px;
+}
+
 #header {
     font-size: 30px;
     margin-left: 175px;
@@ -135,6 +142,10 @@ button:hover {
     .image-size {
         padding-top: 72px;
 
+    }
+
+    #cost {
+        font-size: 35px;
     }
 }
 

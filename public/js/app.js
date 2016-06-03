@@ -39,38 +39,25 @@ function makeDiv() {
             console.log("description : " + responseText[i].description);
             console.log("description : " + responseText[i].image);
 
-
-
-
-
             var main = document.getElementById("main-div");
             main.appendChild(document.importNode(content, true));
         }
     });
 }
 
-var cart = [];
-count = 0;
-count2=0;
 
-function createCart(list) {
-    cart.push(list);
-}
+count = 0;
+count2 = 0;
+
 
 function getValue(item) {
-
-
     item = JSON.parse(item);
-    // var items = item.name + ":"item.cost;
+
     count += item.cost;
     count2++;
     document.getElementById('cartid').innerHTML = count;
     document.getElementById('total').innerHTML = count2;
 
-        console.log(cart);
-    // console.log(cart);
-    // console.log(item);
-}
+    console.log(cart);
 
-var cartnode = document.getElementById('cartid');
-console.log(cartnode);
+}

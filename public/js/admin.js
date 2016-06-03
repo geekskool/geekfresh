@@ -149,7 +149,10 @@ function enableEdit() {
 	document.getElementById('updateIngredients').readOnly = false
 	document.getElementById('updateCategory').readOnly = false
 	document.getElementById('updateCost').readOnly = false
-	document.getElementById('updateImage').readOnly = false
+	document.getElementById('fileSpan').innerHTML = document.getElementById('updateImage').value
+	document.getElementById('updateImage').style.display = "none"
+	document.getElementById('updateImageFile').style.display = "block"
+	document.getElementById('fileSpan').style.display = "block"
 	document.getElementById('updateLocation').readOnly = false
 	document.getElementById('editBtn').style.display = "none"
 	document.getElementById('updateBtn').style.display = "block"	

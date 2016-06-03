@@ -145,16 +145,16 @@ app.delete('/del/:id', function(request, response) {
 });
 
 app.post('/admin', function(request, response) {
-    var form = new formidable.IncomingForm();
+    var form = new formidable.IncomingForm()
     form.parse(request, function(err, fields, files) {
-        var name = fields.foodName;
-        var description = fields.foodDesc;
-        var quantity = fields.quantity;
-        var ingredients = fields.ingredients;
-        var category = fields.category;
-        var cost = fields.cost;
-        var image = files.image.name;
-        var location = fields.location;
+        var name = fields.foodName
+        var description = fields.foodDesc
+        var quantity = fields.quantity
+        var ingredients = fields.ingredients
+        var category = fields.category
+        var cost = fields.cost
+        var image = files.image.name
+        var location = fields.location
         var body = {
             "name": name,
             "description": description,
@@ -172,49 +172,51 @@ app.post('/admin', function(request, response) {
         })
     });
     form.on('fileBegin', function(name, file) {
-        file.path = __dirname + '/public/images/' + file.name;
-    });
+        file.path = __dirname + '/public/images/' + file.name
+    })
     form.on('file', function(name, file) {
-        console.log('Uploaded ' + file.name);
-    });
-    response.sendFile(__dirname + '/public/admin/admin.html');
-});
+        console.log('Uploaded ' + file.name)
+    })
+    response.sendFile(__dirname + '/public/admin/admin.html')
+})
 
 
 app.post('/updatemenu', function(request, response) {
-
-    // var fid = parseInt(request.params.id, 10);
-    var fid = request.body.foodId;
-    var name = request.body.foodName;
-    var description = request.body.foodDesc;
-    var quantity = request.body.quantity;
-    var ingredients = request.body.ingredients;
-    var category = request.body.category;
-    var cost = request.body.cost;
-    var image = request.body.image;
-    var location = request.body.location;
-    var body = {
-        "name": name,
-        "description": description,
-        "quantity": quantity,
-        "ingredients": ingredients,
-        "category": category,
-        "cost": cost,
-        "image": image,
-        "location": location
-    }
-
-    console.log(body);
-
-    db.menu.findById(fid).then(function(menu) {
-        menu.update(body).then(function(menu) {
-            response.redirect("/admin");
-        });
-
-    });
-
-
-}); //end put
+    var form = new formidable.IncomingForm()
+    form.parse(request, function(err, fields, files) {
+        var fid = fields.foodId
+        var name = fields.foodName
+        var description = fields.foodDesc
+        var quantity = fields.quantity
+        var ingredients = fields.ingredients
+        var category = fields.category
+        var cost = fields.cost
+        var image = files.image.name
+        var location = fields.location
+        var body = {
+            "name": name,
+            "description": description,
+            "quantity": quantity,
+            "ingredients": ingredients,
+            "category": category,
+            "cost": cost,
+            "image": image,
+            "location": location
+        }
+        db.menu.findById(fid).then(function(menu) {
+            menu.update(body).then(function(menu) {
+                response.redirect("/admin")
+            })
+        })
+    })
+    form.on('fileBegin', function(name, file) {
+        file.path = __dirname + '/public/images/' + file.name
+    })
+    form.on('file', function(name, file) {
+        console.log('Uploaded ' + file.name)
+    })
+    response.redirect("/admin")
+})
 
 app.get('/:id', function(request, response) {
     var id1 = parseInt(request.query.id, 10);
