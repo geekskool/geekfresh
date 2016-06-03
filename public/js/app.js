@@ -1,5 +1,3 @@
-
-
 var get = function(url, callback) {
     var http = new XMLHttpRequest();
     http.open("GET", url, true);
@@ -50,19 +48,29 @@ function makeDiv() {
         }
     });
 }
+
 var cart = [];
+count = 0;
+count2=0;
 
-function getValue(item) {
-    // item = JSON.parse(item);
-    // var items = item.name + ":"item.cost;
-    cart.push[item];
-
-
-
-    // console.log(cart);
-    console.log(item);
+function createCart(list) {
+    cart.push(list);
 }
 
+function getValue(item) {
 
 
- console.log(document.getElementById('cartid'));
+    item = JSON.parse(item);
+    // var items = item.name + ":"item.cost;
+    count += item.cost;
+    count2++;
+    document.getElementById('cartid').innerHTML = count;
+    document.getElementById('total').innerHTML = count2;
+
+        console.log(cart);
+    // console.log(cart);
+    // console.log(item);
+}
+
+var cartnode = document.getElementById('cartid');
+console.log(cartnode);

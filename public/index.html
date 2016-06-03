@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title> Geek Fresh </title>
-      <link rel="stylesheet" type="text/css" href="css/style.css">
-      <link href='https://fonts.googleapis.com/css?family=Lato:300italic' rel='stylesheet' type='text/css'>
-      <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-   </head>
-   <body>
-      
-      <div id="menu">
-          <nav class="fixed-nav-bar">
+
+<head>
+    <title> Geek Fresh </title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="menu">
+        <nav class="fixed-nav-bar">
             <ul>
-               <div>
-                  <li><i class="fa fa-glide-g" aria-hidden="true" id="header"></i></li>
-               </div>
-               <li><a href="#">Home</a></li>
-               <li><a href="#">Login</a></li>
-               <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"> Cart</i></a></li>
+                <div>
+                    <li><i class="fa fa-glide-g" aria-hidden="true" id="header"></i></li>
+                </div>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#" target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"> Cart</i><span style="padding: 10px;
+    border-radius: 10px;
+    background: coral;
+   margin-left: 10px" id="total"></span></a></li>
+                <li><a href="#" id="cartid">Amount</a></li>
             </ul>
-       </div>
--    </nav>
+    </div>
+    - </nav>
+    <div id="main-div">
+        <template id="inside-div">
+            <img src="" class="image-size">
+            <button type="button" id="btn" class="add-button" onClick="getValue(value)" value=""><i class="fa fa-plus" aria-hidden="true">Add</i>
+            </button>
+            <p id="cost"></p>
+            <div id="desc"></div>
+        </template>
+        <script type="text/javascript" src="./js/app.js "></script>
+        <script>
+        var body = document.getElementsByTagName("body")[0];
+        body.addEventListener("load", init(), false);
 
-      <div id="main-div">
-      <template id="inside-div">
-         <img src="" class= "image-size">
-         <button type="button" id="btn" class="add-button" onClick="getValue(value)" value="" ><i class="fa fa-plus" aria-hidden="true">Add</i>
-         </button>
-         <p id="cost"></p>
-         <div id="desc"></div>
-      </template>
-      <script type="text/javascript" src="app.js "></script>
-      <script>
-         
-         var body = document.getElementsByTagName("body")[0];
-         body.addEventListener("load", init(), false);
-         function init() {
-                 makeDiv();
-         }; 
-      </script>
-      
+        function init() {
+            makeDiv();
+        };
+        </script>
+</body>
 
-   </body>
 </html>
