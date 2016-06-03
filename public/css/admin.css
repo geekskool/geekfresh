@@ -6,7 +6,6 @@
 }
 
 body {
-	/*background-color: #f0f0f0;*/
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	color: gray;
 }
@@ -46,8 +45,22 @@ label#userLbl {
 }
 
 div#container {
-	width: 100%;
 	margin: 0 auto;
+	height: 100%;
+	width: 700px;
+	clear: both;
+	margin-left: 300px;
+}
+
+#container input {
+	width: 100%;
+    clear: both;
+}
+
+#container textarea {
+	width: 100%;
+    clear: both;
+    height: 60px;
 }
 
 .menu-icon {
@@ -96,7 +109,6 @@ ul#nav li a {
 	display: block;
 	padding-top: 16px;
 	padding-left: 10px;
-	/*padding:10px;*/
 	font-size: 0.8em;
 	border-bottom: 1px solid white;
 	-webkit-transition: 0.2s;
@@ -120,15 +132,12 @@ ul#nav li a.selected {
 	width: 80%;
 	height: 100%;
 	background-color: white;
-	margin-left: 25px;
 	padding: 15px;
-	float: right;
 	margin: auto;
-	box-sizing: border-box;
 }
 
 input.file {
-	margin-left: 300px;
+	margin-left: 150px;
 }
 
 .inputContent, textarea {
@@ -138,8 +147,7 @@ input.file {
     padding-left: 10px;
     margin: 10px;
     margin-top: 12px;
-    margin-left: 300px;
-    margin-right: 450px;
+    margin-left: 150px;
     width: 290px;
     height: 35px;
     border: 1px solid #c7d0d2;
@@ -147,17 +155,23 @@ input.file {
 }
 
 button {
-	width: 80px;
+	width: 120px;
 	height: 40px;
 	color: white;
 	background-color: gray;
 	border-radius: 2px;
 	cursor: pointer;
 	border: 1px solid #c7d0d2;
+	margin-top: 20px;
 }
 
 #menuList, #deleteMenuList {
 	margin-bottom: 30px;
+	width: 300px;
+	height: 30px;
+	padding: 2px 2px 2px 2px;
+	border: 1px solid #c7d0d2;
 }
+
 
 
